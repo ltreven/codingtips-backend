@@ -13,14 +13,13 @@ const schema = new mongoose.Schema({
     type: String,
     required: true
   },
-  syntax: String,
-  description: { // in markdown format
-      type: String,
-      required: true
+  mdFile: {
+    type: String,
+    required: true
   },
   categories: [String], // ex.: global objects
-  examples: [String], // in markdown format
   seeAlso: [String], // ids
+  tags: [String], // ids
 }, {
         timestamps: true
     }
