@@ -35,5 +35,5 @@ npm start
 ### Test via Postman
 
 ```
-https://documenter.getpostman.com/view/2306941/SzKPUfw5?version=latest
+https://documenter.getpostman.com/view/2306941/SzYdTwrN?version=latest
 ```

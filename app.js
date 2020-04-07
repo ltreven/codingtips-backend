@@ -4,35 +4,41 @@ const cors = require('cors');
 const passport = require('passport');
 const morgan = require('morgan');
 const path = require('path');
-const fileUpload = require('express-fileupload');
+//const fileUpload = require('express-fileupload');
 const logger = require('./config/winston');
 const usersRouter = require('./routes/usersRouter');
 const tipsRouter = require('./routes/tipsRouter');
+const indexRouter = require('./routes/indexRouter');
+const hbs  = require('express-handlebars');
 
 const app = express();
 
 app.use(cors());
 app.use(morgan("combined", { "stream": logger.stream }));
-app.use(express.static(path.join(__dirname, 'public')));
+
 // view engine setup
-app.set('views', path.join(__dirname, 'public/views'));
-app.set('view engine', 'pug');
+app.engine('hbs', hbs({
+    extname: 'hbs', 
+    defaultLayout: 'layout.hbs', 
+    layoutsDir: __dirname + '/views/layouts/'
+}));
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'hbs');
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 // enable files upload
-app.use(fileUpload({
-  createParentPath: false
-}));
+//app.use(fileUpload({
+//  createParentPath: false
+//}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(passport.initialize());
 
 app.use('/api/tips', tipsRouter);
 app.use('/api/users', usersRouter);
-
-express.Router().get('/',function(req,res){
-  //__dirname : resolves to project folder.
-  res.sendFile(path.join(__dirname + '/index.html'));
-});
+app.use('/', indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -47,7 +53,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render('error', {title: 'Error', message: err.message});
 });
 
 module.exports = app;

@@ -13,7 +13,7 @@ const schema = new mongoose.Schema({
     type: String,
     required: true
   },
-  sintaxe: String,
+  syntax: String,
   description: { // in markdown format
       type: String,
       required: true
@@ -21,11 +21,6 @@ const schema = new mongoose.Schema({
   categories: [String], // ex.: global objects
   examples: [String], // in markdown format
   seeAlso: [String], // ids
-  score: {
-      type: Number,
-      min: [0, 'Score accepts values between 0 and 10'],
-      max: [10, 'Score accepts values between 0 and 10']
-    }
 }, {
         timestamps: true
     }

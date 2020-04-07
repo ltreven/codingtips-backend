@@ -51,7 +51,7 @@ const url = `mongodb://${config.dbSettings.MONGO_HOSTNAME}` +
 `:${config.dbSettings.MONGO_PORT}/${config.dbSettings.MONGO_DB}`;
 
 console.log("connection string to MONGO: " + url);
-//'mongodb://localhost:27017/ironmovies-db'
+//'mongodb://localhost:27017/codingtips-db'
 // mongoose.set('useNewUrlParser', true);
 // mongoose.set('useFindAndModify', false);
 // mongoose.set('useCreateIndex', true);

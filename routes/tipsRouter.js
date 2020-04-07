@@ -1,6 +1,6 @@
 const express = require('express');
 const authenticate = require('../authenticate');
-const Movies = require('../models/movies');
+const Tips = require('../models/tips');
 const logger = require('../config/winston');
 
 const router = express.Router();
@@ -9,13 +9,13 @@ router.use(express.json());
 
 router.route('/')
 .all((req, res, next) => {
-    logger.info('Routing movies/');
+    logger.info('Routing tips/');
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/plain');
     next();
 })
 .get((req, res, next) => {
-    logger.info('Routing GET movies - returns a list of movies');
+    logger.info('Routing GET tips - returns a list of tips');
     
     // (BONUS) Pagination (and sorting):
     let limit = 20;
@@ -35,86 +35,86 @@ router.route('/')
     if (req.query.search) {
         search = {$or: [
             {title: { $regex: new RegExp(req.query.search), $options: 'i' } }, 
-            {director: { $regex: new RegExp(req.query.search), $options: 'i' } } 
+            {summary: { $regex: new RegExp(req.query.search), $options: 'i' } } 
         ]};
     }
-    Movies.find(search)
+    Tips.find(search)
     .skip(offset)
     .limit(limit)
     .sort(sort)
-    .then((movies) => {
+    .then((tips) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
-        res.json(movies);
+        res.json(tips);
     }, (err) => next(err))
     .catch((err) => next(err));
 })
 .post(authenticate.verifyUser, (req, res, next) => {
-    logger.info('Routing POST movies - creates a movie entry');
-    Movies.create(req.body)
-    .then((movie) => {
-        logger.info('Movie created successfully');
+    logger.info('Routing POST tips - creates a tip entry');
+    Tips.create(req.body)
+    .then((tip) => {
+        logger.info('Tip created successfully');
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
-        res.json(movie);
+        res.json(tip);
     }, (err) => next(err))
     .catch((err) => next(err));
 })
 .put(authenticate.verifyUser, (req, res, next) => {
     logger.info('Routing PUT - not supported.');
     res.statusCode = 403;
-    res.end('PUT operation not supported. Please indicade the movieId.');
+    res.end('PUT operation not supported. Please indicade the tipId.');
 })
 .delete(authenticate.verifyUser, (req, res, next) => {
     logger.info('Routing DELETE - not supported');
     res.statusCode = 403;
-    res.end('DELETE operation not supported. Please indicade the movieId.');
+    res.end('DELETE operation not supported. Please indicade the tipId.');
 });
 
-router.route('/:movieId')
+router.route('/:tipId')
 .all((req, res, next) => {
-    logger.info('Routing movies/:movieId');
+    logger.info('Routing tips/:tipId');
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/plain');
     next();
 })
 .get((req, res, next) => {
-    logger.info('Routing GET movies/:movieId', req.params.movieId);
-    if (req.params.movieId.match(/^[0-9a-fA-F]{24}$/)) {
-        Movies.findById(req.params.movieId)
-        .then((movie) => {
+    logger.info('Routing GET tips/:tipId', req.params.tipId);
+    if (req.params.tipId.match(/^[0-9a-fA-F]{24}$/)) {
+        Tips.findById(req.params.tipId)
+        .then((tip) => {
             res.statusCode = 200;
             res.setHeader('Content-Type', 'application/json');
-            res.json(movie);
+            res.json(tip);
         }, (err) => next(err))
         .catch((err) => next(err));            
     } else {
         res.statusCode = 400;
         res.setHeader('Content-Type', 'application/json');
-        res.json({status: 'FAILED', message: 'This ID is not valid: ' + req.params.movieId});
+        res.json({status: 'FAILED', message: 'This ID is not valid: ' + req.params.tipId});
     }
 })
 .post((req, res, next) => {
-    logger.info('Routing POST movies/:movieId - not supported');
+    logger.info('Routing POST tips/:tipId - not supported');
     res.statusCode = 403;
-    res.end('POST operation not supported on /movies/'+ req.params.movieId);
+    res.end('POST operation not supported on /tips/'+ req.params.tipId);
 })
 .put(authenticate.verifyUser, (req, res, next) => {
-    logger.info('Routing PUT movies/:movieId', req.params.movieId);
-    Movies.findByIdAndUpdate(req.params.movieId, {
+    logger.info('Routing PUT tips/:tipId', req.params.tipId);
+    Tips.findByIdAndUpdate(req.params.tipId, {
         $set: req.body
     }, { new: true })
-    .then((movie) => {
+    .then((tip) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
-        res.json(movie);
+        res.json(tip);
     }, (err) => next(err))
     .catch((err) => next(err));
 })
 .delete(authenticate.verifyUser, (req, res, next) => {
-    logger.info('Routing DELETE movies/:movieId', req.params.movieId);
+    logger.info('Routing DELETE tips/:tipId', req.params.tipId);
     // enhancement needed: do not DELETE physically. Create logical deletion
-    Movies.findByIdAndRemove(req.params.movieId)
+    Tips.findByIdAndRemove(req.params.tipId)
     .then((resp) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
