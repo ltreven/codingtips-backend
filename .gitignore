@@ -1,0 +1,17 @@
+### Node ###
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# dependencies
+# ignore node_modules - everybody should install dependencies before running on localhost
+node_modules/
+
+# Mac OS
+.DS_Store
+
+#Environment variables
+.env

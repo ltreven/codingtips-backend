@@ -1,0 +1,119 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ * 
+ * app: mounts Express Server
+ * http: http server
+ * mongoose: integration with MongoDB
+ * config: configs for the app
+ * winston: logger
+ */
+const app = require('../app');
+const http = require('http');
+const mongoose = require('mongoose');
+const config = require('../config/config');
+const logger = require('../config/winston');
+
+/**
+ * Get port from environment and store in Express.
+ */
+const port = normalizePort(config.serverSettings.port);
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+const server = http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+const options = {
+  useNewUrlParser: true,
+  useFindAndModify: false,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
+  connectTimeoutMS: 5000,
+};
+
+// const url = `mongodb://${config.dbSettings.MONGO_USERNAME}` +
+//           `:${config.dbSettings.MONGO_PASSWORD}` +
+//           `@${config.dbSettings.MONGO_HOSTNAME}` +
+//           `:${config.dbSettings.MONGO_PORT}` +
+//           `/${config.dbSettings.MONGO_DB}?authSource=admin`;
+
+const url = `mongodb://${config.dbSettings.MONGO_HOSTNAME}` +
+`:${config.dbSettings.MONGO_PORT}/${config.dbSettings.MONGO_DB}`;
+
+console.log("connection string to MONGO: " + url);
+//'mongodb://localhost:27017/ironmovies-db'
+// mongoose.set('useNewUrlParser', true);
+// mongoose.set('useFindAndModify', false);
+// mongoose.set('useCreateIndex', true);
+// mongoose.set('useUnifiedTopology', true);
+const connect = mongoose.connect(url, options);
+connect.then((db) => {
+  console.log(`Connected to ${config.dbSettings.MONGO_HOSTNAME} MongoDB.`);
+})
+.catch( err => console.log(err));
+
+/**
+ * Normalize port number
+ */
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    return val;
+  }
+
+  if (port >= 0) {
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  const bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+function onListening() {
+  const addr = server.address();
+  const bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  
+  logger.info('Listening on ' + bind);
+}

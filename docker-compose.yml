@@ -1,0 +1,30 @@
+version: '3'
+services:
+  codingtips:
+    build:
+      context: .
+    container_name: 'backend'
+    env_file: .env
+    environment:
+      - MONGO_HOSTNAME=codingtips-db
+      - MONGO_PORT=$MONGO_PORT
+      - MONGO_DB=$MONGO_DB
+    ports:
+      - '3000:3000'
+    links:
+      - 'mongo'
+    depends_on:
+      - 'mongo'
+    networks:
+      - codingtips
+  mongo:
+    image: 'mongo:latest'
+    container_name: codingtips-db
+    environment: 
+      - MONGO_INITDB_DATABASE=codingtips-db
+    ports:
+      - '27017:27017'
+    networks:
+      - codingtips
+networks:
+  codingtips:
