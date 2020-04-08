@@ -13,10 +13,6 @@
           "awslogs-stream-prefix": "ecs"
         }
       },
-      "entryPoint": [
-        "sh",
-        "-c"
-      ],
       "portMappings": [
         {
           "hostPort": 80,
@@ -28,9 +24,6 @@
           "protocol": "tcp",
           "containerPort": 3000
         }
-      ],
-      "command": [
-        "/bin/sh -c \"echo 'starting container...'\""
       ],
       "linuxParameters": null,
       "cpu": 256,
