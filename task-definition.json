@@ -29,9 +29,6 @@
           "containerPort": 3000
         }
       ],
-      "command": [
-        "/bin/sh -c \"echo 'nothing'\""
-      ],
       "linuxParameters": null,
       "cpu": 256,
       "environment": [],
@@ -56,7 +53,7 @@
         "retries": 3,
         "command": [
           "CMD-SHELL",
-          "curl -f http://localhost/ || exit 1"
+          "curl -f http://localhost:3000/ || exit 1"
         ],
         "timeout": 5,
         "interval": 30,
