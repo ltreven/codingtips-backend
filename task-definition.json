@@ -54,7 +54,10 @@
       "interactive": null,
       "healthCheck": {
         "retries": 3,
-        "command": [],
+        "command": [
+          "CMD-SHELL",
+          "curl -f http://localhost/ || exit 1"
+        ],
         "timeout": 5,
         "interval": 30,
         "startPeriod": null
