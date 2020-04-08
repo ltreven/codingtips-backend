@@ -76,5 +76,5 @@ jobs:
       with:
         task-definition: ${{ steps.task-def.outputs.task-definition }}
         service: codingtips-backend-service
-        cluster: codingtips
+        cluster: default2
         wait-for-service-stability: true
