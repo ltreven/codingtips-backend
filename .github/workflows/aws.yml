@@ -59,7 +59,7 @@ jobs:
         # Build a docker container and
         # push it to ECR so that it can
         # be deployed to ECS.
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --build-arg MONGO_PROTOCOL_ARG=mongodb+srv --build-arg MONGO_HOSTNAME_ARG=codingtips-l11gm.mongodb.net --build-arg MONGO_PORT_ARG=   --build-arg MONGO_DB_ARG=test?retryWrites=true --build-arg MONGO_USERNAME_ARG=codingtips-user --build-arg MONGO_PASSWORD_ARG=codingtips123! .
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --build-arg PORT_ARG=80 --build-arg MONGO_PROTOCOL_ARG=mongodb+srv --build-arg MONGO_HOSTNAME_ARG=codingtips-l11gm.mongodb.net --build-arg MONGO_PORT_ARG=   --build-arg MONGO_DB_ARG=test?retryWrites=true --build-arg MONGO_USERNAME_ARG=codingtips-user --build-arg MONGO_PASSWORD_ARG=codingtips123! .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
