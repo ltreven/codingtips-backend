@@ -72,7 +72,7 @@
       "dockerLabels": null,
       "systemControls": null,
       "privileged": null,
-      "name": "codingtips-backend"
+      "name": "codingtips-backend2"
     }
   ],
   "placementConstraints": [],
