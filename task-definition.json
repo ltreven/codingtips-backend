@@ -30,7 +30,7 @@
         }
       ],
       "command": [
-        ""
+        "/bin/sh -c \"echo 'nothing'\""
       ],
       "linuxParameters": null,
       "cpu": 256,
