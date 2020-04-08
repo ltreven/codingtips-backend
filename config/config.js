@@ -3,7 +3,8 @@ exports.dbSettings = {
   MONGO_PASSWORD,
   MONGO_HOSTNAME,
   MONGO_PORT,
-  MONGO_DB
+  MONGO_DB,
+  MONGO_PROTOCOL
 } = process.env;
 
 exports.serverSettings = {
