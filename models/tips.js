@@ -17,6 +17,10 @@ const schema = new mongoose.Schema({
     type: String,
     required: true
   },
+  technology: {
+    type: String,
+    required: true
+  },
   categories: [String], // ex.: global objects
   seeAlso: [String], // ids
   tags: [String], // ids

@@ -33,10 +33,22 @@ router.route('/')
         sort = req.query.sort;
     }
     if (req.query.search) {
-        search = {$or: [
+        const or = {$or: [
             {title: { $regex: new RegExp(req.query.search), $options: 'i' } }, 
             {summary: { $regex: new RegExp(req.query.search), $options: 'i' } } 
         ]};
+        if (req.query.technology) {
+            search = {
+                $and: [
+                    { technology: "${req.query.technology}" },
+                    or
+                ]
+            }
+        } else {
+            search = or;    
+        }
+    } else if (req.query.technology) {
+        search = { technology: "${req.query.technology}" };
     }
     Tips.find(search)
     .skip(offset)
