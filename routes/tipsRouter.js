@@ -33,19 +33,21 @@ router.route('/')
         sort = req.query.sort;
     }
     if (req.query.search) {
-        const or = {$or: [
-            {title: { $regex: new RegExp(req.query.search), $options: 'i' } }, 
-            {summary: { $regex: new RegExp(req.query.search), $options: 'i' } } 
-        ]};
         if (req.query.technology) {
             search = {
                 $and: [
                     { technology: "${req.query.technology}" },
-                    or
+                    {$or: [
+                        {title: { $regex: new RegExp(req.query.search), $options: 'i' } }, 
+                        {summary: { $regex: new RegExp(req.query.search), $options: 'i' } } 
+                    ]}
                 ]
             }
         } else {
-            search = or;    
+            search = {$or: [
+                {title: { $regex: new RegExp(req.query.search), $options: 'i' } }, 
+                {summary: { $regex: new RegExp(req.query.search), $options: 'i' } } 
+            ]};    
         }
     } else if (req.query.technology) {
         search = { technology: req.query.technology };

@@ -32,5 +32,7 @@ const schema = new mongoose.Schema({
 
 schema.index({ title: 1, type: 1 });
 schema.index({ categories: 1, type: 1 });
+schema.index({ summary: 1, type: 1 });
+schema.index({ technology: 1, type: 1 });
 
 module.exports = mongoose.model('Tip', schema);
