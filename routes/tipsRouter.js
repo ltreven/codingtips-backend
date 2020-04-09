@@ -48,7 +48,7 @@ router.route('/')
             search = or;    
         }
     } else if (req.query.technology) {
-        search = { technology: "${req.query.technology}" };
+        search = { technology: req.query.technology };
     }
     Tips.find(search)
     .skip(offset)
