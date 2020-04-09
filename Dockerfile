@@ -29,4 +29,5 @@ ENV PORT=$PORT_ARG
 COPY . /app/backend/
 EXPOSE 3000
 EXPOSE 80
+EXPOSE 443
 CMD [ "npm", "start" ]
