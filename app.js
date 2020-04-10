@@ -8,6 +8,7 @@ const path = require('path');
 const logger = require('./config/winston');
 const usersRouter = require('./routes/usersRouter');
 const tipsRouter = require('./routes/tipsRouter');
+const tipRouter = require('./routes/tipRouter');
 const indexRouter = require('./routes/indexRouter');
 const healthRouter = require('./routes/healthRouter');
 const hbs  = require('express-handlebars');
@@ -40,6 +41,7 @@ app.use(passport.initialize());
 app.use('/api/tips', tipsRouter);
 app.use('/api/users', usersRouter);
 app.use('/health', healthRouter);
+app.use('/tip', tipRouter);
 app.use('/', indexRouter);
 
 // catch 404 and forward to error handler
