@@ -41,7 +41,6 @@ app.use(passport.initialize());
 app.use('/api/tips', tipsRouter);
 app.use('/api/users', usersRouter);
 app.use('/health', healthRouter);
-app.use('/tip', tipRouter);
 app.use('/', indexRouter);
 
 // catch 404 and forward to error handler
