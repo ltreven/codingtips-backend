@@ -8,7 +8,6 @@ const path = require('path');
 const logger = require('./config/winston');
 const usersRouter = require('./routes/usersRouter');
 const tipsRouter = require('./routes/tipsRouter');
-const tipRouter = require('./routes/tipRouter');
 const indexRouter = require('./routes/indexRouter');
 const healthRouter = require('./routes/healthRouter');
 const hbs  = require('express-handlebars');
