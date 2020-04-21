@@ -1,4 +1,4 @@
-## How to practice immutability with arrays
+## Immutability with arrays
 
 ### How to practice immutability with arrays 
 
